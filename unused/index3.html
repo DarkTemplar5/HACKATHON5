@@ -1,0 +1,265 @@
+<html><head>
+        <style>
+            body {font-size:15px;font-family:Arial, Helvetica;color:#444;-webkit-perspective: 2000;margin-top:60px;}
+            h1 {font-size:24px;}
+            h2 {font-size:19px;}
+            h3 {font-size:16px;}
+            h1, h2 {color:#222;}
+            h3 a {color:#000;}
+            a {color:#00A9D4;}
+            li a {text-decoration:none;}
+            .license {font-size:12px;}
+            .note {
+                background-color: #FCFCF0;
+                border: 1px solid #CCC;
+                display: block;
+                margin: 0.5em;
+                padding: 0.5em;
+            }
+            
+            .footnote {font-size: 12px;font-style: italic;color:#666;}
+            
+            div {
+                position: absolute;
+            }
+            
+            #baseplane {
+                width: 400px;
+                height: 800px;
+                left: 0px;
+                top: 0px;
+                -webkit-transform-style: preserve-3d;
+                -webkit-animation-name: 'rotate-box';
+                -webkit-animation-timing-function: linear;
+                -webkit-animation-duration: 10s;
+                -webkit-animation-iteration-count: 1000;
+            }
+            .shadow {
+				-webkit-box-shadow: 3px 3px 4px #999;
+				box-shadow: 3px 3px 4px #999;
+			}
+            
+            .sides {
+                -webkit-background-size: 200px 162px;
+                background-repeat: no-repeat;
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                left: 200px;
+                top: 200px;
+            }
+            
+            #side0 {
+                background-color: red;
+                -webkit-transform: translateZ(200px);
+            }
+            
+            #side1 {
+                background-color: green;
+                -webkit-transform: translateZ(100px) translateX(-100px) rotateY(90deg);
+            }
+            
+            #side2 {
+                background-color: blue;
+                -webkit-transform: translateZ(100px) translateX(100px) rotateY(90deg);
+            }
+            
+            #side3 {
+                background-color: cyan;
+            }
+            
+            #side4 {
+                background-color: magenta;
+                -webkit-transform: translateZ(100px) translateY(-100px) rotateX(90deg);
+            }
+            
+            #side5 {
+                background-color: yellow;
+                -webkit-transform: translateZ(100px) translateY(100px) rotateX(90deg);
+            }
+            
+            @-webkit-keyframes 'rotate-box' {
+                0% {
+                    -webkit-transform: rotateX(0deg) rotateY(0deg);
+                }
+                
+                25% {
+                    -webkit-transform: rotateX(180deg) rotateY(90deg);
+                }
+                
+                50% {
+                    -webkit-transform: rotateX(360deg) rotateY(180deg);
+                }
+                
+                50% {
+                    -webkit-transform: rotateX(540deg) rotateY(270deg);
+                }
+                
+                100% {
+                    -webkit-transform: rotateX(720deg) rotateY(360deg);
+                }
+            }
+            
+            #self_view {
+                display: none;
+            }
+            #baseplane, #addEffectButton, #stopDemoButton {
+                display: none;
+            }
+            button {font-size:20px;}
+            #baseplane {
+            	position: absolute;
+            	top:-300px;
+            }
+        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Welcome to Bowser</title>
+        <script>
+            var pc;
+            
+            function startDemo() {
+            	console.log("Starting self-view");
+                document.getElementById("self_view").style.display="block";
+                document.getElementById("stopDemoButton").style.display="block";
+                document.getElementById("startDemoButton").style.display="none";
+                
+                
+                var gumOptions = {
+                    "video": "yes please",
+                    "toString": function () { return "video user"; }
+                };
+                navigator.webkitGetUserMedia("audio, video", function (stream) {
+                                             
+                    document.getElementsByTagName("video")[0].src = webkitURL.createObjectURL(stream);
+                    var v, oldsrc;
+                    setTimeout(function() {
+                        if (!v) {
+                            v = document.getElementById("self_view");
+                            oldsrc = v.src;
+                        }
+                        if (v.src != oldsrc) {
+                            cssRule.style.backgroundImage = "url(" + oldsrc + ")";
+                            oldsrc = v.src;
+                        }
+                        setTimeout(arguments.callee, 20);
+                    }, 0);
+                });
+				try
+				{
+                pc = new PeerConnection();
+				}
+				catch(error)
+				{}
+				capture();
+            }
+            function stopDemo() {
+            	console.log("Stopping...");
+                document.getElementById("startDemoButton").style.display="block";
+                document.getElementById("stopDemoButton").style.display="none";
+                document.getElementById("self_view").style.display="none";
+                if (pc) {
+                    pc.close();
+                }
+            }
+			
+			
+			
+			var index = 0;
+			var intervalId = null;
+			
+			
+			function capture() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+    return;
+  }
+
+  intervalId = setInterval(function() {
+    /*ctx.drawImage(video, 0, 0);
+    var img = document.createElement('img');
+    img.src = canvas.toDataURL('image/webp');
+
+    var angle = Math.floor(Math.random() * 36);
+    var sign = Math.floor(Math.random() * 2) ? 1 : -1;
+    img.style.webkitTransform = 'rotateZ(' + (sign * angle) + 'deg)';
+
+    var maxLeft = document.body.clientWidth;
+    var maxTop = document.body.clientHeight;
+
+    img.style.top = Math.floor(Math.random() * maxTop) + 'px';
+    img.style.left = Math.floor(Math.random() * maxLeft) + 'px';
+
+    gallery.appendChild(img);*/
+	
+	ctx.drawImage(video, 0, 0);
+	var data = canvas.toDataURL('image/webp');
+	var data = data.replace(/^data:image\/(png|jpg);base64,/, "");
+	var filename = "a"+index+".jpg";
+	++index;
+	PostImage( filename, data, "" );
+	
+  }, 150);
+}
+
+			
+			function PostImage( filename, imageData, message )
+{
+    // this is the multipart/form-data boundary we'll use
+    var boundary = '----ThisIsTheBoundary1234567890';
+    
+    // let's encode our image file, which is contained in the var
+    var formData = '--' + boundary + '\r\n'
+    formData += 'Content-Disposition: form-data; name="source"; filename="' + filename + '"\r\n';
+	formData += boundary + '\r\n';
+    formData += 'Content-Type: image/png\r\n\r\n';
+    formData += boundary; //+'\r\n";
+	for ( var i = 0; i < imageData.length; ++i )
+    {
+        formData += String.fromCharCode( imageData[ i ] & 0xff );
+    }
+	formData += boundary + '\r\n';
+    formData += '\r\n';
+    //formData += '--' + boundary + '\r\n';
+    //formData += 'Content-Disposition: form-data; name="message"\r\n\r\n';
+    //formData += message + '\r\n'
+    formData += '--' + boundary + '--\r\n';
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open( 'POST', 'http://10.97.33.182:8084/imgpost', true );
+    xhr.onload = xhr.onerror = function() {
+        console.log( xhr.responseText );
+    };
+    xhr.setRequestHeader( "Content-Type", "multipart/form-data; boundary=" + boundary );
+    //xhr.sendAsBinary( formData );
+	xhr.sendAsBinary(formData);
+}
+
+XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
+    function byteValue(x) {
+        return x.charCodeAt(0) & 0xff;
+    }
+    var ords = Array.prototype.map.call(datastr, byteValue);
+    var ui8a = new Uint8Array(ords);
+    this.send(ui8a.buffer);
+}
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            
+            <div id="demo" style="position:relative;">
+                <p style="" align="center">
+                    <br>
+                    <button id="startDemoButton" onclick="startDemo();" style="display: block; ">Record your story!</button>
+                    <button id="stopDemoButton" onclick="stopDemo();">Stop recording</button>
+                    <br>
+                </p>
+                <video id="self_view" autoplay="" width="300" height="246" style="display: block; " src="blob:http%3A//getbowser.appspot.com/49cfb3e4-e300-4f8c-8bc3-c5c23d10ebcd"></video>
+            </div>
+            
+            
+        </div>
+    
+
+</body></html>

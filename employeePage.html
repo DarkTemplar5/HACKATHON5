@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>NTFB</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+	<div id="Container">
+		<div id="LogoAndNav">
+			<div id="Logo">
+				<a href="index.html">
+					<img src="images/logo.png"/>
+				</a>
+			</div>
+			<div id="NavLinks">
+				<a class="navLink" href="volunteerPage.html">
+					<span> I AM A </span>
+					<p>VOLUNTEER</p>
+				</a>
+				<a class="currentPage navLink" href="employeePage.html">
+					<span> I AM AN </span>
+					<p>EMPLOYEE</p>
+				</a>
+				<a class="navLink" href="donatePage.html">
+					<span> I WANT TO </span>
+					<p>DONATE</p>
+				</a>	
+				<a class="navLink" href="stories.html">
+					<span> VIEW AND SHARE </span>
+					<p>STORIES</p>
+				</a>
+			</div>
+		<div style="clear:both"></div>
+		</div>
+		<div id="PageContent">
+			<div id="FoodEntryForm">
+				<form>
+					<div>Volunteer ID: <input type="number" name="volunteerID"></div>
+					<div> Donation ID:&nbsp; <input type="number" name="donationID" onblur="submitID(this)"></div>
+					<p>Please enter donated amounts</p>
+					<div id="FoodAndQuantities">
+						<div>
+							Food Type: <input type="text" name="foodType1">
+							Quantity: <input class="quantityInput" type="number" value="1" min="0" step="1" name="foodQuantity1">
+						</div>
+						<div>
+							Food Type: <input type="text" name="foodType2">
+							Quantity: <input class="quantityInput" type="number" value="1" min="0" step="1" name="foodQuantity2">
+						</div>
+						<div>
+							Food Type: <input type="text" name="foodType3">
+							Quantity: <input class="quantityInput" type="number" value="1" min="0" step="1" name="foodQuantity3">
+						</div>
+						<div>
+							Food Type: <input type="text" name="foodType4" onkeyup="addInputs(this)">
+							Quantity: <input class="quantityInput" type="number" value="1" min="0" step="1" name="foodQuantity4">
+						</div>
+					</div>
+					<div id="SubmitButton">
+						<input type="submit">
+					</div>
+					<div style="clear:both"></div>
+				</form>
+			</div>
+		</div>
+		<div id="Footer">
+			<p style="padding-top: 6px">North Texas Food Bank 4500 S. Cockrell Hill Road Dallas, TX 75236-2028 214.330.1396</p>
+			<p> <a href="http://web.ntfb.org/"> Home Page </a></p>
+		</div>
+	</div>
+</body>
+</html>

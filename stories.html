@@ -1,0 +1,241 @@
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css">
+	<link href="../common.css" rel="stylesheet" type="text/css">
+	<title>Stories</title>
+
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+	<script src="scripts/jquery.bxSlider.js" type="text/javascript"></script>
+	<script type="text/javascript" src="scripts/main.js"></script>
+	<style>
+            body {font-size:15px;font-family:Arial, Helvetica;color:#444;-webkit-perspective: 2000;margin-top:60px;}
+            h1 {font-size:24px;}
+            h2 {font-size:19px;}
+            h3 {font-size:16px;}
+            h1, h2 {color:#222;}
+            h3 a {color:#000;}
+            a {color:#00A9D4;}
+            li a {text-decoration:none;}
+            .license {font-size:12px;}
+            .note {
+                background-color: #FCFCF0;
+                border: 1px solid #CCC;
+                display: block;
+                margin: 0.5em;
+                padding: 0.5em;
+            }
+            
+            .footnote {font-size: 12px;font-style: italic;color:#666;}
+            
+            
+            .shadow {
+				-webkit-box-shadow: 3px 3px 4px #999;
+				box-shadow: 3px 3px 4px #999;
+			}
+            
+            #self_view {
+                display: none;
+            }
+            #addEffectButton, #stopDemoButton {
+                display: none;
+            }
+            button {font-size:20px;}
+            
+        </style>
+	<script>
+            var pc;
+            
+            function startDemo() {
+            	console.log("Starting self-view");
+                document.getElementById("self_view").style.display="block";
+                document.getElementById("stopDemoButton").style.display="block";
+                document.getElementById("startDemoButton").style.display="none";
+                
+                
+                var gumOptions = {
+                    "video": "yes please",
+                    "toString": function () { return "video user"; }
+                };
+                navigator.webkitGetUserMedia("audio, video", function (stream) {
+                                             
+                    document.getElementsByTagName("video")[0].src = webkitURL.createObjectURL(stream);
+                    var v, oldsrc;
+                    setTimeout(function() {
+                        if (!v) {
+                            v = document.getElementById("self_view");
+                            oldsrc = v.src;
+                        }
+                        if (v.src != oldsrc) {
+                            cssRule.style.backgroundImage = "url(" + oldsrc + ")";
+                            oldsrc = v.src;
+                        }
+                        setTimeout(arguments.callee, 20);
+                    }, 0);
+                });
+				try
+				{
+                pc = new PeerConnection();
+				}
+				catch(error)
+				{}
+				capture();
+            }
+            function stopDemo() {
+            	console.log("Stopping...");
+                document.getElementById("startDemoButton").style.display="block";
+                document.getElementById("stopDemoButton").style.display="none";
+                document.getElementById("self_view").style.display="none";
+                if (pc) {
+                    pc.close();
+                }
+            }
+			
+			
+			
+			var index = 0;
+			var intervalId = null;
+			
+			
+			function capture() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+    return;
+  }
+
+  intervalId = setInterval(function() {
+    /*ctx.drawImage(video, 0, 0);
+    var img = document.createElement('img');
+    img.src = canvas.toDataURL('image/webp');
+
+    var angle = Math.floor(Math.random() * 36);
+    var sign = Math.floor(Math.random() * 2) ? 1 : -1;
+    img.style.webkitTransform = 'rotateZ(' + (sign * angle) + 'deg)';
+
+    var maxLeft = document.body.clientWidth;
+    var maxTop = document.body.clientHeight;
+
+    img.style.top = Math.floor(Math.random() * maxTop) + 'px';
+    img.style.left = Math.floor(Math.random() * maxLeft) + 'px';
+
+    gallery.appendChild(img);*/
+	
+	ctx.drawImage(video, 0, 0);
+	var data = canvas.toDataURL('image/webp');
+	var data = data.replace(/^data:image\/(png|jpg);base64,/, "");
+	var filename = "a"+index+".jpg";
+	++index;
+	PostImage( filename, data, "" );
+	
+  }, 150);
+}
+
+			
+			function PostImage( filename, imageData, message )
+{
+    // this is the multipart/form-data boundary we'll use
+    var boundary = '----ThisIsTheBoundary1234567890';
+    
+    // let's encode our image file, which is contained in the var
+    var formData = '--' + boundary + '\r\n'
+    formData += 'Content-Disposition: form-data; name="source"; filename="' + filename + '"\r\n';
+	formData += boundary + '\r\n';
+    formData += 'Content-Type: image/png\r\n\r\n';
+    formData += boundary; //+'\r\n";
+	for ( var i = 0; i < imageData.length; ++i )
+    {
+        formData += String.fromCharCode( imageData[ i ] & 0xff );
+    }
+	formData += boundary + '\r\n';
+    formData += '\r\n';
+    //formData += '--' + boundary + '\r\n';
+    //formData += 'Content-Disposition: form-data; name="message"\r\n\r\n';
+    //formData += message + '\r\n'
+    formData += '--' + boundary + '--\r\n';
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open( 'POST', 'http://10.97.33.182:8084/imgpost', true );
+    xhr.onload = xhr.onerror = function() {
+        console.log( xhr.responseText );
+    };
+    xhr.setRequestHeader( "Content-Type", "multipart/form-data; boundary=" + boundary );
+    //xhr.sendAsBinary( formData );
+	xhr.sendAsBinary(formData);
+}
+
+XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
+    function byteValue(x) {
+        return x.charCodeAt(0) & 0xff;
+    }
+    var ords = Array.prototype.map.call(datastr, byteValue);
+    var ui8a = new Uint8Array(ords);
+    this.send(ui8a.buffer);
+}
+        </script>
+	
+	
+	
+	
+	</head>
+
+	<body>
+		<div id="Container">
+			<div id="LogoAndNav">
+				<div id="Logo">
+					<a href="index.html">
+						<img src="images/logo.png"/>
+					</a>
+				</div>
+				<div id="NavLinks">
+					<a class="navLink" href="volunteerPage.html">
+						<span> I AM A </span>
+						<p>VOLUNTEER</p>
+					</a>
+					<a class="navLink" href="employeePage.html">
+						<span> I AM AN </span>
+						<p>EMPLOYEE</p>
+					</a>
+					<a class="currentPage navLink" href="donatePage.html">
+						<span> I WANT TO </span>
+						<p>DONATE</p>
+					</a>	
+					<a class="navLink" href="stories.html">
+						<span> VIEW AND SHARE </span>
+						<p>TESTIMONIES</p>
+					</a>
+				</div>
+				<div style="clear:both"></div>
+			</div>
+			<div id="PageContent">
+				
+				
+				
+				 <div id="demo" style="position:relative;">
+                <p style="" align="center">
+                    <br>
+                    <button id="startDemoButton" onclick="startDemo();" style="display: block; ">Record your story!</button>
+                    <button id="stopDemoButton" onclick="stopDemo();">Stop recording</button>
+                    <br>
+                </p>
+                <video id="self_view" autoplay="" width="300" height="246" style="display: none; " src="blob:http%3A//getbowser.appspot.com/49cfb3e4-e300-4f8c-8bc3-c5c23d10ebcd"></video>
+            </div>
+            
+            
+				
+				
+				
+				
+				
+			</div>
+			<div id="Footer">
+				<p style="padding-top: 6px">North Texas Food Bank 4500 S. Cockrell Hill Road Dallas, TX 75236-2028 214.330.1396</p>
+				<p> <a href="http://web.ntfb.org/"> Home Page </a></p>
+			</div>
+		</div>
+	</body>
+</html>
+		
+		

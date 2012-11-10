@@ -1,0 +1,166 @@
+body{
+	background: url('images/body_bkgd.png') no-repeat right;
+	font-family: Calibri, Helvetica, Arial, sans-serif;
+}
+p{
+	-webkit-margin-before: 0px;
+	-webkit-margin-after: 0px;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+}
+#LogoAndNav{
+	width: 980px;
+	margin: auto;
+	margin-bottom: 20px;
+}
+#Logo{
+	float: left;
+}
+#NavLinks{
+	float: left;
+	margin-top: 67px;
+	margin-left: 15px;
+}
+.navLink{
+	background: url('images/nav_bkgd.png');
+	width: 202px;
+	height: 67px;
+	display: block;
+	float: left;
+	text-decoration: none;
+	color: #7D706C;
+	font-size: 20px;
+	margin-right: 3px;
+}
+.currentPage{
+	color: white;
+}
+.navLink:hover{
+	background: url('images/nav_bkgd_highlight.png');
+	color: white;
+}
+.navLink span{
+	text-align: center;
+	display: inline-block;
+	width: 202px;
+	padding-top: 10px;
+}
+.navLink p{
+	text-align: center;
+}
+#PageContent{
+	width: 980px;
+	margin: auto;
+}
+#RotatorArea{
+	width: 905px;
+	margin-left: 33px;
+}
+/*#RotatorArea video{
+	width: 335px;
+	height: 293px;
+	position: absolute;
+	top: 14px;
+	right: 110px;
+}*/
+#Slide4Video{
+	display: none;
+	width: 335px;
+	height: 293px;
+	position: absolute !important;
+	top: 176px;
+	right: 300px;
+}
+#Slide4VideoBkgd{
+	background: black;
+	width: 350px;
+	height: 293px;
+	position: absolute !important;
+	top: 21px;
+	right: 109px;
+}
+/*#RotatorArea object{
+	position: absolute;
+	top: 47px;
+	right: 110px;
+}
+#RotatorArea video{
+	position: absolute;
+	top: 47px;
+	right: 110px;
+}*/
+#slider1 div{
+	position: relative;
+}
+#slider1 a{
+	display: block;
+	width: 405px;
+	height: 140px;
+	position: absolute;
+	top: 22px;
+	right: 5px;	
+	text-decoration: none;
+	color: white;
+	font-size: 41px;
+}
+#slider1 a p{
+	padding-left: 15px;
+}
+#slider1 a p:first-child{
+	padding-top: 18px;
+}
+.bx-wrapper, .bx-window{
+	width: 900px !important;
+}
+.bx-next{
+	position: absolute;
+	right: 0px;
+	top: 250px;
+}
+.bx-prev{
+	position: absolute;
+	top: 250px;
+}
+.quantityInput{
+	width: 50px;
+}
+#Mid{
+	Width: 900px;
+	Height: 300px;
+}
+#PenPicture{
+	float: left;
+	width: 500px;
+}
+#PenPicture img{
+	float: left;
+	margin-left: 50px;
+}
+#FoodEntryForm{
+	display: inline;
+	width: 400px;
+}
+#FoodEntryForm form{
+	margin-top: 25px;
+}
+#SubmitButton{
+	margin-left: 155px;
+	margin-top: 10px;
+}
+#FoodEntryForm p{
+	padding-top: 10px;
+	padding-bottom: 10px; 
+	font-weight: bold;
+}
+#FoodAndQuantities div input:first-child{
+	margin-right: 20px;
+}
+#Footer{
+	margin-top: 20px;
+	height: 50px;
+	background: #fecd87;
+	color: #7D706C
+}
+#Footer p{
+	text-align: center;
+}

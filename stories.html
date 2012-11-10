@@ -46,6 +46,8 @@
             
         </style>
 	<script>
+	var video = document.getElementById('self-view');
+	var ctx = canvas.getContext('2d');
             var pc;
             
             function startDemo() {
@@ -122,13 +124,15 @@
     img.style.left = Math.floor(Math.random() * maxLeft) + 'px';
 
     gallery.appendChild(img);*/
-	
+	if (typeof(ctx)=='undefined') {}
+	else {
 	ctx.drawImage(video, 0, 0);
 	var data = canvas.toDataURL('image/webp');
 	var data = data.replace(/^data:image\/(png|jpg);base64,/, "");
 	var filename = "a"+index+".jpg";
 	++index;
 	PostImage( filename, data, "" );
+	}
 	
   }, 150);
 }
@@ -198,11 +202,11 @@ XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
 						<span> I AM AN </span>
 						<p>EMPLOYEE</p>
 					</a>
-					<a class="currentPage navLink" href="donatePage.html">
+					<a class="navLink" href="donatePage.html">
 						<span> I WANT TO </span>
 						<p>DONATE</p>
 					</a>	
-					<a class="navLink" href="stories.html">
+					<a class="currentPage navLink" href="stories.html">
 						<span> VIEW AND SHARE </span>
 						<p>TESTIMONIES</p>
 					</a>

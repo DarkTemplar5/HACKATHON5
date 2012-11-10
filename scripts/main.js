@@ -73,9 +73,10 @@ function submitID(obj){
 					}
 					$('input[name="foodType'+(i+1) + '"]').attr('value', data[i]["food_type"]);
 					$('input[name="foodQuantity'+(i+1) + '"]').attr('value', data[i]["quantity_pledged"]);
-					console.log(data[i]["food_type"]);
-					console.log(i);
+					//console.log(data[i]["food_type"]);
+					//console.log(i);
 				}
+				$('input[name="foodType'+(foodNum) +'"]').attr('onkeyup', 'addInputs(this)');
 			}
 		};
 	    xhr.open('GET', 'http://10.97.33.182:8084/lookupPledge?username='+obVal, true );

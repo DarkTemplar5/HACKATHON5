@@ -1,4 +1,2 @@
-hi
-hi
-this
-works
+The node server is /var/www/script/server_es.js
+This must be running in order for the front end to communicate with the database.
